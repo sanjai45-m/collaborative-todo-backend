@@ -13,7 +13,6 @@ function checkDbConnection(req, res, next) {
 
 router.use(checkDbConnection);
 
-// Get all devices
 router.get('/', async (req, res) => {
     try {
         const devices = await todoModel.getAllDevices();
@@ -24,7 +23,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get device stats
 router.get('/:deviceId/stats', async (req, res) => {
     try {
         const { deviceId } = req.params;

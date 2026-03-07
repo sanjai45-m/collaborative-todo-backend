@@ -34,8 +34,6 @@ function setupWebSocket(server) {
 
     wss.on('connection', (ws) => {
         console.log('🔌 New client connected');
-        
-        // Store client with empty device info initially
         state.clients.set(ws, { deviceId: null, deviceName: null });
 
         if (state.isDbConnected) {
@@ -60,11 +58,9 @@ function setupWebSocket(server) {
                 const data = JSON.parse(message);
                 console.log('📨 Received:', data.type);
 
-                // Extract device info from payload
                 const deviceId = data.payload?.deviceId;
                 const deviceName = data.payload?.deviceName;
 
-                // Track device if we have the info
                 if (deviceId) {
                     const clientInfo = state.clients.get(ws);
                     if (clientInfo) {

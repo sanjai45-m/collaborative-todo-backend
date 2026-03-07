@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
             status: status || 'pending',
             created_by: created_by || 'Anonymous',
             updated_by: updated_by || 'Anonymous',
-            deviceId: deviceId // Add this line
+            deviceId: deviceId
         });
 
         broadcastToAll({ type: 'TODO_ADDED', payload: newTodo });
@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        const { title, description, updated_by, deviceId } = req.body; // Add deviceId
+        const { title, description, updated_by, deviceId } = req.body;
         const { id } = req.params;
 
         const existing = await todoModel.getTodoById(id);
@@ -77,7 +77,7 @@ router.put('/:id', async (req, res) => {
             title,
             description,
             updated_by: updated_by || 'Anonymous',
-            deviceId: deviceId // Add this line
+            deviceId: deviceId
         });
 
         const updated = await todoModel.getTodoById(id);
@@ -109,7 +109,7 @@ router.delete('/:id', async (req, res) => {
 router.patch('/:id/status', async (req, res) => {
     try {
         const { id } = req.params;
-        const { status, updated_by, deviceId } = req.body; // Add deviceId
+        const { status, updated_by, deviceId } = req.body;
 
         if (!['pending', 'in_progress', 'completed'].includes(status)) {
             return res.status(400).json({ error: 'Invalid status value' });
@@ -124,7 +124,7 @@ router.patch('/:id/status', async (req, res) => {
             id,
             status,
             updated_by: updated_by || 'Anonymous',
-            deviceId: deviceId // Add this line
+            deviceId: deviceId
         });
 
         const updated = await todoModel.getTodoById(id);

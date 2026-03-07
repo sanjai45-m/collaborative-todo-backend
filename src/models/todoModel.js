@@ -5,20 +5,17 @@ const { sql } = require('../../db');
 
 async function trackDevice(deviceId, deviceName) {
     try {
-        // Check if device exists
         const existing = await sql`
             SELECT * FROM devices WHERE device_id = ${deviceId}
         `;
 
         if (existing.length === 0) {
-            // New device
             await sql`
                 INSERT INTO devices (device_id, device_name, first_seen, last_seen, total_tasks_created)
                 VALUES (${deviceId}, ${deviceName || 'Unknown'}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)
             `;
             console.log(`📱 New device registered: ${deviceName || 'Unknown'} (${deviceId})`);
         } else {
-            // Update last seen
             await sql`
                 UPDATE devices 
                 SET last_seen = CURRENT_TIMESTAMP
